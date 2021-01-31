@@ -24,7 +24,7 @@ export function names(name: string) {
         nameSnake: _.snakeCase(name),
         nameKebab: _.kebabCase(name),
         nameCamel: camel[0].toUpperCase() + camel.substring(1),
-        nameUpper: _.snakeCase(name).replace('-', '_').toUpperCase()
+        nameUpper: _.snakeCase(name).toUpperCase()
     }
 }
 
@@ -32,6 +32,7 @@ export function addNames(obj: unknown) {
     traverse(obj, o => {
         if (o.name) {
             Object.assign(o, names(o.name))
+
         }
     })
     return obj

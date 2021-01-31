@@ -5,6 +5,7 @@
   "main": "astrogen.js",
   "scripts": {
     "test": "node astrogen test out-test person-image -t",
+    "test2": "node astrogen out-test out-test2 person-avatar",
     "build": "tsc -p .",
     "tsc": "tsc -p . -w"
   },

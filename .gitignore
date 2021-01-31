@@ -1,4 +1,5 @@
 node_modules
 out-test
+out-test2
 **/*.js
 **/*.js.map

@@ -2,10 +2,11 @@ import { program } from 'commander'
 import { templatize } from './astrogen/templatize'
 import { Named } from './astrogen/util'
 import { generate } from './astrogen/gen'
+import { version } from './package.json'
 
 (function main() {
     program
-        .version('1.0.0')
+        .version(version)
         .arguments('<src-dir> <target-dir> <model-name>')
         .option('-p, --property <name=value...>', 'properties to include in the model')
         .option('-t, --template', 'Templatize srcDir to targetDir instead of applying the template')
