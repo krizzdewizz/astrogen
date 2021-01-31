@@ -30,10 +30,10 @@ function toTemplate(src: string, target: string, model: Named) {
 
 export function templatize(srcDir: string, targetDir: string, model: Named): void {
 
-    const srcAbs = path.resolve(srcDir)
+    const srcAbsLen = path.resolve(srcDir).length
 
     walk.sync(srcDir, (p: string) => {
-        const srcRel = p.substring(srcAbs.length)
+        const srcRel = p.substring(srcAbsLen)
         const { s: target } = replaceName(path.join(targetDir, srcRel), model)
 
         const stat = fs.statSync(p);
