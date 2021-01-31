@@ -1,6 +1,6 @@
 import { iff, ifNot } from './util'
 
-function defineGlobals() {
+(function defineGlobals() {
 
     const glob = global as any;
     glob.iff = iff
@@ -11,10 +11,8 @@ function defineGlobals() {
             return this.join('\n')
         }
     })
-}
+})()
 
-defineGlobals()
-
-export function render(tpl: (model: unknown) => string, model: unknown) {
+export function render(tpl: (model: unknown) => string, model: unknown): string {
     return tpl(model)
 }

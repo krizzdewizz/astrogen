@@ -2,12 +2,12 @@ import fs from 'fs'
 import path from 'path'
 import walk from 'walkdir'
 import { TPL_EXT } from './gen'
-import { Named, names } from './util'
+import { Named, names, replaceAll } from './util'
 
 function replaceName(s: string, { name }: Named): { s: string, replaced: string[] } {
     let replaced: string[] = []
     Object.entries(names(name)).forEach(([k, v]) => {
-        const newS = s.split(v).join(`\${${k}}`);
+        const newS = replaceAll(s, v, `\${${k}}`);
         if (newS !== s) {
             replaced.push(k)
         }
@@ -28,7 +28,7 @@ function toTemplate(src: string, target: string, model: Named) {
     }
 }
 
-export function templatize(srcDir: string, targetDir: string, model: Named) {
+export function templatize(srcDir: string, targetDir: string, model: Named): void {
 
     const srcAbs = path.resolve(srcDir)
 
