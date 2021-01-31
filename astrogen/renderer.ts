@@ -16,6 +16,5 @@ function defineGlobals() {
 defineGlobals()
 
 export function render(tpl: (model: unknown) => string, model: unknown) {
-    //console.log(clone)
     return tpl(model)
 }
