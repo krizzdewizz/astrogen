@@ -20,12 +20,17 @@ export const ifNot = (expr, ifTrue, ifFalse) => iff(expr, ifFalse, ifTrue)
 
 export function names(name: string): object {
     const camel = _.camelCase(name)
-    return {
+    const result = {
         nameSnake: _.snakeCase(name),
         nameKebab: _.kebabCase(name),
         nameCamel: camel[0].toUpperCase() + camel.substring(1),
-        nameUpper: _.snakeCase(name).toUpperCase()
-    }
+        nameCamelField: camel,
+        nameUpper: _.snakeCase(name).toUpperCase(),
+        nameSpaceLower: replaceAll(_.kebabCase(name), '-', ' ').toLowerCase(),
+        nameLower:replaceAll(_.kebabCase(name), '-', '').toLowerCase()
+    };
+    // console.log('names', result)
+    return result
 }
 
 export function addNames(obj: unknown): unknown {

@@ -16,12 +16,16 @@ function replaceName(s: string, { name }: Named): { s: string, replaced: string[
     return { s, replaced }
 }
 
+function escapeBackticks(content: string): string {
+    return replaceAll(content, '`', '\\`')
+}
+
 function toTemplate(src: string, target: string, model: Named) {
     const srcContent = fs.readFileSync(src);
     const { s: content, replaced } = replaceName(String(srcContent), model)
 
     if (replaced.length) {
-        const tpl = `module.exports = ({ ${replaced.join(', ')} }) => \`\n${content}\``
+        const tpl = `module.exports = ({ ${replaced.join(', ')} }) => \`${escapeBackticks(content)}\``
         fs.writeFileSync(`${target}${TPL_EXT}`, tpl)
     } else {
         fs.writeFileSync(target, srcContent)
