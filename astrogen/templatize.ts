@@ -16,16 +16,34 @@ function replaceName(s: string, { name }: Named): { s: string, replaced: string[
     return { s, replaced }
 }
 
-function escapeBackticks(content: string): string {
-    return replaceAll(content, '`', '\\`')
+export function escapeBackticks(content: string): string {
+    if (!content) {
+        return content;
+    }
+    let res = '';
+    let tick = false;
+    const n = content.length;
+    for (let i = 0; i < n; i++) {
+        const c = content[i];
+        if (c === '`') {
+            res += '\\';
+            tick = !tick;
+        } else if (c === '$' && tick) {
+            res += '\\';
+        }
+
+        res += c;
+    }
+
+    return res;
 }
 
 function toTemplate(src: string, target: string, model: Named) {
-    const srcContent = fs.readFileSync(src);
-    const { s: content, replaced } = replaceName(String(srcContent), model)
+    const srcContent = escapeBackticks(String(fs.readFileSync(src)));
+    const { s: content, replaced } = replaceName(srcContent, model)
 
     if (replaced.length) {
-        const tpl = `module.exports = ({ ${replaced.join(', ')} }) => \`${escapeBackticks(content)}\``
+        const tpl = `module.exports = ({ ${replaced.join(', ')} }) => \`${content}\``
         fs.writeFileSync(`${target}${TPL_EXT}`, tpl)
     } else {
         fs.writeFileSync(target, srcContent)
